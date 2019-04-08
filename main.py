@@ -4,11 +4,13 @@ from math import factorial as factorial
 
 QUEEN = -1
 
-board = np.zeros((8, 8), dtype=int)
+def init_board():
+  board = np.zeros((8, 8), dtype=int)
+  board[4, 0] = board[5, 1] = board[6, 2] = board[3, 3] = QUEEN
+  board[4, 4] = board[5, 5] = board[6, 6] = board[5, 7] = QUEEN
+  return board
 
-board[4, 0] = board[5, 1] = board[6, 2] = board[3, 3] = QUEEN
-board[4, 4] = board[5, 5] = board[6, 6] = board[5, 7] = QUEEN
-
+board = init_board()
 print(board)
 
 def main_diagonal(i, j, board):
@@ -19,13 +21,13 @@ def main_diagonal(i, j, board):
 	board[i, j] = QUEEN
 	queens = 0
 	for diag in range(length):
+		q = 0
+		q += np.count_nonzero(board.diagonal(diag) == QUEEN)
+		queens += 0 if q < 2 else int(factorial(q) / (2 * (factorial((q - 2)))))
+		if diag != 0:
 			q = 0
-			q += np.count_nonzero(board.diagonal(diag) == QUEEN)
+			q += np.count_nonzero(board.diagonal(-diag) == QUEEN)
 			queens += 0 if q < 2 else int(factorial(q) / (2 * (factorial((q - 2)))))
-			if diag != 0:
-				q = 0
-				q += np.count_nonzero(board.diagonal(-diag) == QUEEN)
-				queens += 0 if q < 2 else int(factorial(q) / (2 * (factorial((q - 2)))))
 	board[:, j] = 0
 	board[queen_i, queen_j] = QUEEN
 	return queens
@@ -48,8 +50,7 @@ def secondary_diagonal(row, column, board):
 				aux += np.count_nonzero(board[i, j] == QUEEN)
 			else:
 				aux += np.count_nonzero(board[i, j] == QUEEN)
-				queens += 0 if aux < 2 else int(factorial(aux) /
-																				(2 * (factorial((aux - 2)))))
+				queens += 0 if aux < 2 else int(factorial(aux) / (2 * (factorial((aux - 2)))))
 				aux = 0
 			i -= 1
 			j += 1
@@ -99,23 +100,23 @@ def calculate_heuristic(i, j, board):
 	return d + r
 
 def hill_climbing(board):
-	prev_h = 1000
-	prev_i = 0
-	prev_j = 0
+  prev_h = 1000
+  prev_i = 0
+  prev_j = 0
 
-	while True:
-		j = rand(8)
-		for i in range(8):
-			h = calculate_heuristic(i, j, board)
-			if prev_h <= 1:
-				print(board)
-				return board
-			if prev_h > h:
-				prev_h = h
-				prev_i = i
-				prev_j = j
-		board[:, prev_j] = 0
-		board[prev_i, prev_j] = QUEEN
+  while True:
+    j = rand(8)
+    for i in range(8):
+      h = calculate_heuristic(i, j, board)
+      if prev_h <= 1:
+        print(board)
+        return board
+      if prev_h > h:
+        prev_h = h
+        prev_i = i
+        prev_j = j
+    board[:, prev_j] = 0
+    board[prev_i, prev_j] = QUEEN
 
 #print(calculate_heuristic(5, 7, board))
 hill_climbing(board)
