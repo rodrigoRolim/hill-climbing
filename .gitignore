@@ -29,4 +29,8 @@ hs_err_pid*
 
 # vscode
 .vscode/*
+
+# python unittest
+test/__pycache__/*
+
 # End of https://www.gitignore.io/api/jav
