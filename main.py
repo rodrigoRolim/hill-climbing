@@ -100,24 +100,38 @@ def calculate_heuristic(i, j, board):
 	return d + r
 
 def hill_climbing(board):
-  prev_h = 1000
+  prev_h = 17
   prev_i = 0
   prev_j = 0
+  loop = 0
 
   while True:
+    if loop > 10:
+      board = init_board()
+      prev_h = 17
+      prev_i = 0
+      prev_j = 0
+      loop = 0
+
     j = rand(8)
     for i in range(8):
       h = calculate_heuristic(i, j, board)
-      if prev_h <= 1:
+      
+      if prev_h == 0:
+        board[:, prev_j] = 0
+        board[prev_i, prev_j] = QUEEN
         print(board)
         return board
+
       if prev_h > h:
         prev_h = h
         prev_i = i
         prev_j = j
+
     board[:, prev_j] = 0
     board[prev_i, prev_j] = QUEEN
-
+    loop += 1
+    
 #print(calculate_heuristic(5, 7, board))
 hill_climbing(board)
 #print(row_value(0, 7, board))
