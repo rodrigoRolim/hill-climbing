@@ -21,29 +21,29 @@ class TestBoard(unittest.TestCase):
 
   def test_add_queen02(self):
     i, j = 4, 0
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     i, j = 5, 1
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     i, j = 6, 2
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     i, j = 3, 3
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     i, j = 4, 4
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     i, j = 5, 5
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     i, j = 6, 6
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     i, j = 5, 7
-    self.board[i, j] = -1
-    self.assertTrue(self.board[i, j] == -1)
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
     self.board.print()
   
   def test_find_queen(self):
@@ -82,6 +82,93 @@ class TestBoard(unittest.TestCase):
     self.assertEqual(self.board[i, j], 0)
     self.board.undo_last_move()
     self.assertEqual(self.board[i, j], 1)
+
+  def test_count_atack_row(self):
+    i, j = 4, 0
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 1
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 6, 2
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 3, 3
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 4, 4
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 5
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 6, 6
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 7
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    self.board.print()
+
+    self.assertEquals(5, self.board.count_atack_row())
+
+  def test_count_main_diagonal(self):
+    i, j = 4, 0
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 1
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 6, 2
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 3, 3
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 4, 4
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 5
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 6, 6
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 7
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    self.board.print()
+
+    self.assertEquals(9, self.board.count_main_diagonal())
+
+  def test_count_secondary_diagonal(self):
+    i, j = 4, 0
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 1
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 6, 2
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 3, 3
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 4, 4
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 5
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 6, 6
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    i, j = 5, 7
+    self.board[i, j] = 1
+    self.assertTrue(self.board[i, j] == 1)
+    self.board.print()
+
+    self.assertEquals(3, self.board.count_secondary_diagonal())
 
 if __name__ == '__main__':
 	unittest.main()
