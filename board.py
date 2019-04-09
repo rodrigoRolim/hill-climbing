@@ -135,5 +135,5 @@ class Board:
         j += 1
     return queens
 
-  def print(self):
+  def printBoard(self):
     print(self._board)
