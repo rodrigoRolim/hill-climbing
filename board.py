@@ -6,16 +6,17 @@ QUEEN = 1
 
 class Board:
   ''' class Board '''
-  def __init__(self):
+  def __init__(self, n):
     ''' init with 0s '''
-    self._board = np.zeros((8,8), dtype=int)
+    self._N = n
+    self._board = np.zeros((n,n), dtype=int)
     self._last_i = -1
     self._last_j = -1
     self._last_value = 0
 
-  def rand_init(self):
-    for j in range(8):
-      i = rand(0, 7)
+  def rand_init(self, n):
+    for j in range(self._N):
+      i = rand(0, self._N - 1)
       self._board[i][j] = 1
 
   def __getitem__(self, key):
@@ -69,18 +70,17 @@ class Board:
 
   def count_atack_row(self):
     row_value = 0
-    for i in range(8):
+    for i in range(self._N):
       n = 0
-      for j in range(8):
+      for j in range(self._N):
         n += self._board[i, j]
-        if j == 7:
+        if j == self.N - 1:
           row_value += 0 if n < 2 else fac(n) / int(2 * (fac((n - 2))))
     return int(row_value)
 
   def count_main_diagonal(self):
-    length = 8
-    queens = 0
-    for diag in range(length):
+    queens = 0 #número de rainhas atacantes nas diagonais da esquerda para a direita
+    for diag in range(self._N):
       q = 0
       q += np.count_nonzero(self._board.diagonal(diag) == QUEEN)
       queens += 0 if q < 2 else int(fac(q) / (2 * (fac((q - 2)))))
@@ -103,36 +103,16 @@ class Board:
     20 11 02        i = i - 1; j = j + 1
     30 21 12 03     i = i - 1; j = j + 1
     40 31 22 13 04  i = i - 1; j = j + 1
+    A(nxn) -> n = i + j, para somente todo elemento da diagonal secundária
     '''
+    q = 0
     length = 8
     queens = 0
-    for k in range(length):
-      i = k
-      j = 0
-      aux = 0
-      while i >= 0:
-        if i != 0:
-          aux += self._board[i, j]
-        else:
-          aux += self._board[i, j]
-          queens += 0 if aux < 2 else int(fac(aux) / (2 * (fac((aux - 2)))))
-          aux = 0
-        i -= 1
-        j += 1
-
-    for k in range(1, length):
-      i = length - 1
-      j = k
-      aux = 0
-      while j <= length - 1:
-        if j != 7:
-          aux += self._board[i, j]
-        else:
-          aux += self._board[i, j]
-          queens += 0 if aux < 2 else int(fac(aux) / (2 * (fac((aux - 2)))))
-          aux = 0
-        i -= 1
-        j += 1
+    for j in range(length):
+      i = length - j
+      q += np.count_nonzero(self._board[i, j] == QUEEN)
+    if q > 1:
+      queens = int(fac(q)/(2*(fac(q - 2))))
     return queens
 
   def printBoard(self):
