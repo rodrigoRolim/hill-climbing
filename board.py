@@ -86,8 +86,7 @@ class Board:
       if diag != 0:
         q = 0
         q += np.count_nonzero(self._board.diagonal(-diag) == QUEEN)
-      if q > 1:
-        queens = int(fac(q) / (2 * (fac((q - 2)))))
+      if q > 1: queens = attacks_number(q)
     return queens
   #contando o número de rainhas atacantes da diagonal principal
   def count_main_diagonal(self):
@@ -95,7 +94,7 @@ class Board:
     q = 0
     for diag in range(self._N):
       q += np.count_nonzero(self._board.diagonal(diag) == QUEEN)
-    queens += 0 if q < 2 else attacks_number(q)
+      if q > 1: queens = attacks_number(q)
     return queens
   #contado o número de rainhas atacantes nas diagonais da esquerda para direita
   def count_main_inferior_diagonals(self):
@@ -108,8 +107,7 @@ class Board:
         i = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         j += 1
-    if q > 1: 
-      queens = attacks_number(q)
+    if q > 1: queens = attacks_number(q)
     return queens
   def count_main_superior_diagonals(self):
     queens = 0
@@ -121,8 +119,7 @@ class Board:
         j = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         i += 1
-    if q > 1:
-      queens = attacks_number(q)
+    if q > 1: queens = attacks_number(q)
     return queens
   def count_secondary_diagonal(self):
     q = 0
@@ -131,8 +128,7 @@ class Board:
     for j in range(length):
       i = length - j
       q += np.count_nonzero(self._board[i, j] == QUEEN)
-    if q > 1:
-      queens = attacks_number(q)
+    if q > 1: queens = attacks_number(q)
     return queens
   #def count_secondary_superior_diagonals(self):
   #def count_secondary_inferior_diagonals(self):
