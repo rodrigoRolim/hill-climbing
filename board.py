@@ -87,7 +87,8 @@ class Board:
       if diag != 0:
         q = 0
         q += np.count_nonzero(self._board.diagonal(-diag) == QUEEN)
-        queens += 0 if q < 2 else int(fac(q) / (2 * (fac((q - 2)))))
+      if q > 1:
+        queens = int(fac(q) / (2 * (fac((q - 2)))))
     return queens
   #contando o número de rainhas atacantes da diagonal principal
   def count_main_diagonal(self):
