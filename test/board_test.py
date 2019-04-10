@@ -4,12 +4,13 @@ from board import Board
 class TestBoard(unittest.TestCase):
 
   def setUp(self):
-    self.board = Board()
-
+    self._N = 8
+    self.board = Board(self._N)
+   
   def test_init(self):
-    board = Board()
-    for i in range(8):
-      for j in range(8):
+    board = Board(self._N)
+    for i in range(self._N):
+      for j in range(self._N):
         self.assertTrue(board[i, j] == 0)
     board.printBoard()
 

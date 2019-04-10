@@ -78,7 +78,7 @@ class Board:
           row_value += 0 if n < 2 else fac(n) / int(2 * (fac((n - 2))))
     return int(row_value)
 
-  def count_main_diagonal(self):
+  def count_diagonals(self):
     queens = 0 #número de rainhas atacantes nas diagonais da esquerda para a direita
     for diag in range(self._N):
       q = 0
@@ -89,8 +89,55 @@ class Board:
         q += np.count_nonzero(self._board.diagonal(-diag) == QUEEN)
         queens += 0 if q < 2 else int(fac(q) / (2 * (fac((q - 2)))))
     return queens
-
+  #contando o número de rainhas atacantes da diagonal principal
+  def count_main_diagonal(self):
+    queens = 0
+    q = 0
+    for diag in range(self._N):
+      q += np.count_nonzero(self._board.diagonal(diag) == QUEEN)
+    queens += 0 if q < 2 else attacks_number(q)
+    return queens
+  #contado o número de rainhas atacantes nas diagonais da esquerda para direita
+  def count_main_inferior_diagonals(self):
+    queens = 0
+    q = 0
+    diag = self._N - 2
+    j = 0
+    while(diag > 0):
+      for n in range(diag):
+        i = n + 1
+        q += np.count_nonzero(self._board[i,j] == QUEEN)
+        j += 1
+    if q > 1: 
+      queens = attacks_number(q)
+    return queens
+  def count_main_superior_diagonals(self):
+    queens = 0
+    q = 0
+    diag = self._N - 2
+    i = 0
+    while(diag > 0):
+      for n in range(diag):
+        j = n + 1
+        q += np.count_nonzero(self._board[i,j] == QUEEN)
+        i += 1
+    if q > 1:
+      queens = attacks_number(q)
+    return queens
   def count_secondary_diagonal(self):
+    q = 0
+    length = 8
+    queens = 0
+    for j in range(length):
+      i = length - j
+      q += np.count_nonzero(self._board[i, j] == QUEEN)
+    if q > 1:
+      queens = attacks_number(q)
+    return queens
+  #def count_secondary_superior_diagonals(self):
+  #def count_secondary_inferior_diagonals(self):
+  def attacks_number(q):
+    return int(fac(q)/(2*(fac(q - 2))))
     '''
     00 01 02 03 04
     10 11 12 13 14
@@ -105,15 +152,7 @@ class Board:
     40 31 22 13 04  i = i - 1; j = j + 1
     A(nxn) -> n = i + j, para somente todo elemento da diagonal secundária
     '''
-    q = 0
-    length = 8
-    queens = 0
-    for j in range(length):
-      i = length - j
-      q += np.count_nonzero(self._board[i, j] == QUEEN)
-    if q > 1:
-      queens = int(fac(q)/(2*(fac(q - 2))))
-    return queens
+   
 
   def printBoard(self):
     print(self._board)
