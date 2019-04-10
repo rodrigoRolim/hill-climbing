@@ -97,7 +97,7 @@ class Board:
       if q > 1: queens = attacks_number(q)
     return queens
   #contado o número de rainhas atacantes nas diagonais da esquerda para direita
-  def count_main_inferior_diagonals(self):
+  def count_diagonals_under_main(self):
     queens = 0
     q = 0
     diag = self._N - 2
@@ -109,7 +109,7 @@ class Board:
         j += 1
     if q > 1: queens = attacks_number(q)
     return queens
-  def count_main_superior_diagonals(self):
+  def count_diagonals_above_main(self):
     queens = 0
     q = 0
     diag = self._N - 2
