@@ -110,6 +110,7 @@ class Board:
         i = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         j += 1
+      diag -= 1
     if q > 1: queens = combination(q)
     return queens
   def count_diagonals_above_main(self):
@@ -122,6 +123,7 @@ class Board:
         j = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         i += 1
+      diag -= 1
     if q > 1: queens = combination(q)
     return queens
   def count_secondary_diagonal(self):
