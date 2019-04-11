@@ -143,8 +143,20 @@ class Board:
       diag -= 1
     if q > 1: queens = attacks_number()
     return queens
-  #def count_diagonals_above_secondary(self):
-  #def attacks_number(q):
+  def count_diagonals_above_secondary(self):
+    queens = 0
+    diag = self._N - 2
+    i = 0
+    q = 0
+    while(diag > 0):
+      for n in range(diag):
+        j = n - 1
+        q += np.count_nonzero(self._board[i,j] == QUEEN)
+        i += 1
+      diag -= 1
+    if q > 1: queens = attacks_number()
+    return queens
+  def attacks_number(q):
     return int(fac(q)/(2*(fac(q - 2))))
     '''
     00 01 02 03 04
