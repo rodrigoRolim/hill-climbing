@@ -130,9 +130,21 @@ class Board:
       q += np.count_nonzero(self._board[i, j] == QUEEN)
     if q > 1: queens = attacks_number(q)
     return queens
-  #def count_secondary_superior_diagonals(self):
-  #def count_secondary_inferior_diagonals(self):
-  def attacks_number(q):
+  def count_diagonals_under_secondary(self):
+    queens = 0
+    diag = self._N - 2
+    j = self._N - 1
+    q = 0
+    while(diag > 0):
+      for n in range(diag):
+        i = n + 1
+        q += np.count_nonzero(self._board[i,j] == QUEEN)
+        j -= 1
+      diag -= 1
+    if q > 1: queens = attacks_number()
+    return queens
+  #def count_diagonals_above_secondary(self):
+  #def attacks_number(q):
     return int(fac(q)/(2*(fac(q - 2))))
     '''
     00 01 02 03 04
@@ -147,6 +159,9 @@ class Board:
     30 21 12 03     i = i - 1; j = j + 1
     40 31 22 13 04  i = i - 1; j = j + 1
     A(nxn) -> n = i + j, para somente todo elemento da diagonal secundária
+    1. i = n e j = is + 1
+    2. i++, j-- e n - 2
+    3. 
     '''
    
 
