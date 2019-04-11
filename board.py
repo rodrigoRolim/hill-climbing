@@ -75,9 +75,11 @@ class Board:
       for j in range(self._N):
         n += self._board[i, j]
         if j == self.N - 1:
-          row_value += 0 if n < 2 else fac(n) / int(2 * (fac((n - 2))))
+          row_value += 0 if n < 2 else combination(n)
     return int(row_value)
-
+  #total de rainhas atacantes
+  def attackers_number(self):
+    return count_diagonals(self) + count_main_diagonal(self) + count_secondary_diagonal(self)
   def count_diagonals(self):
     queens = 0 #número de rainhas atacantes nas diagonais da esquerda para a direita
     for diag in range(self._N):
@@ -86,7 +88,7 @@ class Board:
       if diag != 0:
         q = 0
         q += np.count_nonzero(self._board.diagonal(-diag) == QUEEN)
-      if q > 1: queens = attacks_number(q)
+      if q > 1: queens = combination(q)
     return queens
   #contando o número de rainhas atacantes da diagonal principal
   def count_main_diagonal(self):
@@ -94,7 +96,8 @@ class Board:
     q = 0
     for diag in range(self._N):
       q += np.count_nonzero(self._board.diagonal(diag) == QUEEN)
-      if q > 1: queens = attacks_number(q)
+      if q > 1: queens = combination(q)
+      queens += count_diagonals_above_main(self) + count_diagonals_under_main(self)
     return queens
   #contado o número de rainhas atacantes nas diagonais da esquerda para direita
   def count_diagonals_under_main(self):
@@ -107,7 +110,7 @@ class Board:
         i = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         j += 1
-    if q > 1: queens = attacks_number(q)
+    if q > 1: queens = combination(q)
     return queens
   def count_diagonals_above_main(self):
     queens = 0
@@ -119,7 +122,7 @@ class Board:
         j = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         i += 1
-    if q > 1: queens = attacks_number(q)
+    if q > 1: queens = combination(q)
     return queens
   def count_secondary_diagonal(self):
     q = 0
@@ -128,7 +131,8 @@ class Board:
     for j in range(length):
       i = length - j
       q += np.count_nonzero(self._board[i, j] == QUEEN)
-    if q > 1: queens = attacks_number(q)
+    if q > 1: queens = combination(q)
+    queens += count_diagonals_under_main(self) + count_diagonals_above_secondary(self)
     return queens
   def count_diagonals_under_secondary(self):
     queens = 0
@@ -141,7 +145,7 @@ class Board:
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         j -= 1
       diag -= 1
-    if q > 1: queens = attacks_number()
+    if q > 1: queens = combination()
     return queens
   def count_diagonals_above_secondary(self):
     queens = 0
@@ -154,9 +158,9 @@ class Board:
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         i += 1
       diag -= 1
-    if q > 1: queens = attacks_number()
+    if q > 1: queens = combination()
     return queens
-  def attacks_number(q):
+  def combination(q):
     return int(fac(q)/(2*(fac(q - 2))))
     '''
     00 01 02 03 04
@@ -175,7 +179,5 @@ class Board:
     2. i++, j-- e n - 2
     3. 
     '''
-   
-
   def printBoard(self):
     print(self._board)
