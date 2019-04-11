@@ -14,7 +14,7 @@ class Board:
     self._last_j = -1
     self._last_value = 0
 
-  def rand_init(self, n):
+  def rand_init(self):
     for j in range(self._N):
       i = rand(0, self._N - 1)
       self._board[i][j] = 1
@@ -68,18 +68,18 @@ class Board:
   def undo_last_move(self):
     self._board[self._last_i, self._last_j] = self._last_value
 
-  def count_atack_row(self):
+  def count_attack_row(self):
     row_value = 0
     for i in range(self._N):
       n = 0
       for j in range(self._N):
         n += self._board[i, j]
-        if j == self.N - 1:
-          row_value += 0 if n < 2 else combination(n)
+        if j == self._N - 1:
+          row_value += 0 if n < 2 else self.combination(n)
     return int(row_value)
   #total de rainhas atacantes
   def attackers_number(self):
-    return count_diagonals(self) + count_main_diagonal(self) + count_secondary_diagonal(self)
+    return self.count_main_diagonal() + self.count_secondary_diagonal()
   def count_diagonals(self):
     queens = 0 #número de rainhas atacantes nas diagonais da esquerda para a direita
     for diag in range(self._N):
@@ -88,7 +88,7 @@ class Board:
       if diag != 0:
         q = 0
         q += np.count_nonzero(self._board.diagonal(-diag) == QUEEN)
-      if q > 1: queens = combination(q)
+      if q > 1: queens = self.combination(q)
     return queens
   #contando o número de rainhas atacantes da diagonal principal
   def count_main_diagonal(self):
@@ -96,49 +96,49 @@ class Board:
     q = 0
     for diag in range(self._N):
       q += np.count_nonzero(self._board.diagonal(diag) == QUEEN)
-      if q > 1: queens = combination(q)
-      queens += count_diagonals_above_main(self) + count_diagonals_under_main(self)
+      if q > 1: 
+        queens = self.count_diagonals_above_main() + self.count_diagonals_under_main() + self.combination(q)
     return queens
   #contado o número de rainhas atacantes nas diagonais da esquerda para direita
   def count_diagonals_under_main(self):
     queens = 0
     q = 0
-    diag = self._N - 2
-    j = 0
+    diag = self._N - 1
     while(diag > 0):
+      j = 0
       for n in range(diag):
         i = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         j += 1
       diag -= 1
-    if q > 1: queens = combination(q)
+    if q > 1: queens = self.combination(q)
     return queens
   def count_diagonals_above_main(self):
     queens = 0
     q = 0
-    diag = self._N - 2
-    i = 0
+    diag = self._N - 1
     while(diag > 0):
+      i = 0
       for n in range(diag):
         j = n + 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         i += 1
       diag -= 1
-    if q > 1: queens = combination(q)
+    if q > 1: queens = self.combination(q)
     return queens
   def count_secondary_diagonal(self):
     q = 0
     length = 8
     queens = 0
     for j in range(length):
-      i = length - j
+      i = (length - 1) - j
       q += np.count_nonzero(self._board[i, j] == QUEEN)
-    if q > 1: queens = combination(q)
-    queens += count_diagonals_under_main(self) + count_diagonals_above_secondary(self)
+    if q > 1: queens = self.combination(q)
+    queens += self.count_diagonals_under_main() + self.count_diagonals_above_secondary()
     return queens
   def count_diagonals_under_secondary(self):
     queens = 0
-    diag = self._N - 2
+    diag = self._N - 1
     j = self._N - 1
     q = 0
     while(diag > 0):
@@ -147,22 +147,22 @@ class Board:
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         j -= 1
       diag -= 1
-    if q > 1: queens = combination()
+    if q > 1: queens = self.combination()
     return queens
   def count_diagonals_above_secondary(self):
     queens = 0
-    diag = self._N - 2
-    i = 0
+    diag = self._N - 1
     q = 0
     while(diag > 0):
+      i = 0
       for n in range(diag):
         j = n - 1
         q += np.count_nonzero(self._board[i,j] == QUEEN)
         i += 1
       diag -= 1
-    if q > 1: queens = combination()
+    if q > 1: queens = self.combination(q)
     return queens
-  def combination(q):
+  def combination(self, q):
     return int(fac(q)/(2*(fac(q - 2))))
     '''
     00 01 02 03 04

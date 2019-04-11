@@ -1,19 +1,21 @@
 import numpy as np
 from numpy.random import randint as rand
 from math import factorial as factorial
+from board import Board
 
 QUEEN = -1
+N = 8
 
 def init_board():
-  board = np.zeros((8, 8), dtype=int)
-  board[4, 0] = board[5, 1] = board[6, 2] = board[3, 3] = QUEEN
-  board[4, 4] = board[5, 5] = board[6, 6] = board[5, 7] = QUEEN
-  return board
+	board = Board(N)
+	board.rand_init()	
+  
+	return board
 
 board = init_board()
 print(board)
 
-def main_diagonal(i, j, board):
+""" def main_diagonal(i, j, board):
 	length = len(board)
 	queen_i = np.where(board[:, j] == QUEEN)[0][0]
 	queen_j = j
@@ -71,14 +73,14 @@ def secondary_diagonal(row, column, board):
 
 	board[:, column] = 0
 	board[queen_i, queen_j] = QUEEN
-	return queens
+	return queens """
 
 
-def diagonal_value(i, j, board):
-	return main_diagonal(i, j, board) + secondary_diagonal(i, j, board)
+""" def diagonal_value(i, j, board):
+	return main_diagonal(i, j, board) + secondary_diagonal(i, j, board )"""
 
 
-def row_value(i, j, board):
+""" def row_value(i, j, board):
 	queen_i = np.where(board[:, j] == QUEEN)[0][0]
 	queen_j = j
 	board[:, j] = 0
@@ -89,12 +91,12 @@ def row_value(i, j, board):
 		queens += 0 if q < 2 else int(factorial(q) / (2 * (factorial((q - 2)))))
 	board[:, j] = 0
 	board[queen_i, queen_j] = QUEEN
-	return queens
+	return queens """
 
 
 def calculate_heuristic(i, j, board):
-	d = diagonal_value(i, j, board)
-	r = row_value(i, j, board)
+	d = board.attackers_number()
+	r = board.count_attack_row()
 	print(d, 'diag')
 	print(r, 'row')
 	return d + r
@@ -115,12 +117,12 @@ def hill_climbing(board):
 
     j = rand(8)
     for i in range(8):
-      h = calculate_heuristic(i, j, board)
+      h = calculate_heuristic(i,j,board)
       
       if prev_h == 0:
         board[:, prev_j] = 0
         board[prev_i, prev_j] = QUEEN
-        print(board)
+        print(board.printBoard())
         return board
 
       if prev_h > h:
@@ -131,7 +133,7 @@ def hill_climbing(board):
     board[:, prev_j] = 0
     board[prev_i, prev_j] = QUEEN
     loop += 1
-    
+  
 #print(calculate_heuristic(5, 7, board))
 hill_climbing(board)
 #print(row_value(0, 7, board))
