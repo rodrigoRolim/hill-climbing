@@ -34,5 +34,7 @@ hs_err_pid*
 test/__pycache__/*
 __pycache__/*
 
+# jupyter notebook
+.ipynb_checkpoints/*
 
 # End of https://www.gitignore.io/api/jav
