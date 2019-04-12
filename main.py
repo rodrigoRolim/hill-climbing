@@ -1,20 +1,17 @@
 import numpy as np
 from numpy.random import randint as rand
 from math import factorial as factorial
-
+from board import Board
 QUEEN = -1
 
-def init_board():
-  board = np.zeros((8, 8), dtype=int)
-  board[4, 0] = board[5, 1] = board[6, 2] = board[3, 3] = QUEEN
-  board[4, 4] = board[5, 5] = board[6, 6] = board[5, 7] = QUEEN
-  return board
 
-board = init_board()
-print(board)
+
+board = Board(8) 
+board.rand_init()
+board.printBoard()
 
 def main_diagonal(i, j, board):
-	length = len(board)
+	length = len(board.getBoard())
 	queen_i = np.where(board[:, j] == QUEEN)[0][0]
 	queen_j = j
 	board[:, j] = 0
@@ -34,7 +31,7 @@ def main_diagonal(i, j, board):
 
 
 def secondary_diagonal(row, column, board):
-	length = len(board)
+	length = len(board.getBoard())
 	queen_i = np.where(board[:, column] == QUEEN)[0][0]
 	queen_j = column
 	board[:, column] = 0

@@ -14,7 +14,7 @@ class Board:
     self._last_j = -1
     self._last_value = 0
 
-  def rand_init(self, n):
+  def rand_init(self):
     for j in range(self._N):
       i = rand(0, self._N - 1)
       self._board[i][j] = 1
@@ -79,7 +79,7 @@ class Board:
     return int(row_value)
 
   def count_main_diagonal(self):
-    queens = 0 #número de rainhas atacantes nas diagonais da esquerda para a direita
+    queens = 0 
     for diag in range(self._N):
       q = 0
       q += np.count_nonzero(self._board.diagonal(diag) == QUEEN)
@@ -91,20 +91,7 @@ class Board:
     return queens
 
   def count_secondary_diagonal(self):
-    '''
-    00 01 02 03 04
-    10 11 12 13 14
-    20 21 22 23 24
-    30 31 32 33 34
-    40 41 42 43 44
 
-    00
-    10 01           i = i - 1; j = j + 1
-    20 11 02        i = i - 1; j = j + 1
-    30 21 12 03     i = i - 1; j = j + 1
-    40 31 22 13 04  i = i - 1; j = j + 1
-    A(nxn) -> n = i + j, para somente todo elemento da diagonal secundária
-    '''
     q = 0
     length = 8
     queens = 0
@@ -114,6 +101,7 @@ class Board:
     if q > 1:
       queens = int(fac(q)/(2*(fac(q - 2))))
     return queens
-
+  def getBoard(self):
+    return self._board
   def printBoard(self):
     print(self._board)
