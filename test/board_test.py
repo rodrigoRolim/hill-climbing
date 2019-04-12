@@ -11,12 +11,12 @@ class TestBoard(unittest.TestCase):
     for i in range(8):
       for j in range(8):
         self.assertTrue(board[i, j] == 0)
-    board.print()
+    board.printBoard()
 
   def test_add_queen01(self):
     i, j = 0, 0
     self.board[i, j] = 1
-    self.board.print()
+    self.board.printBoard()
     self.assertEquals(self.board[i, j], 1)
 
   def test_add_queen02(self):
@@ -44,7 +44,7 @@ class TestBoard(unittest.TestCase):
     i, j = 5, 7
     self.board[i, j] = 1
     self.assertTrue(self.board[i, j] == 1)
-    self.board.print()
+    self.board.printBoard()
   
   def test_find_queen(self):
     i, j = 4, 0
@@ -108,7 +108,7 @@ class TestBoard(unittest.TestCase):
     i, j = 5, 7
     self.board[i, j] = 1
     self.assertTrue(self.board[i, j] == 1)
-    self.board.print()
+    self.board.printBoard()
 
     self.assertEquals(5, self.board.count_atack_row())
 
@@ -137,7 +137,7 @@ class TestBoard(unittest.TestCase):
     i, j = 5, 7
     self.board[i, j] = 1
     self.assertTrue(self.board[i, j] == 1)
-    self.board.print()
+    self.board.printBoard()
 
     self.assertEquals(9, self.board.count_main_diagonal())
 
@@ -166,7 +166,7 @@ class TestBoard(unittest.TestCase):
     i, j = 5, 7
     self.board[i, j] = 1
     self.assertTrue(self.board[i, j] == 1)
-    self.board.print()
+    self.board.printBoard()
 
     self.assertEquals(3, self.board.count_secondary_diagonal())
 
