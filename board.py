@@ -15,6 +15,7 @@ class Board:
     self._last_value = 0
 
   def rand_init(self):
+    self._board = np.zeros((self._N,self._N), dtype=int)
     for j in range(self._N):
       i = rand(0, self._N - 1)
       self._board[i][j] = 1
