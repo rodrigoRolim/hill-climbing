@@ -43,7 +43,7 @@ def hill_climbing(board):
       if prev_h == 0:
         board[:, prev_j] = 0
         board[prev_i, prev_j] = QUEEN
-        print(board.printBoard())
+        print(board)
         return board
 
       if prev_h > h:

@@ -164,22 +164,5 @@ class Board:
     return queens
   def combination(self, q):
     return int(fac(q)/(2*(fac(q - 2))))
-    '''
-    00 01 02 03 04
-    10 11 12 13 14
-    20 21 22 23 24
-    30 31 32 33 34
-    40 41 42 43 44
-
-    00
-    10 01           i = i - 1; j = j + 1
-    20 11 02        i = i - 1; j = j + 1
-    30 21 12 03     i = i - 1; j = j + 1
-    40 31 22 13 04  i = i - 1; j = j + 1
-    A(nxn) -> n = i + j, para somente todo elemento da diagonal secundária
-    1. i = n e j = is + 1
-    2. i++, j-- e n - 2
-    3. 
-    '''
   def printBoard(self):
     print(self._board)
