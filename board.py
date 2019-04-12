@@ -14,7 +14,7 @@ class Board:
     self._last_j = -1
     self._last_value = 0
 
-  def rand_init(self, n):
+  def rand_init(self):
     for j in range(self._N):
       i = rand(0, self._N - 1)
       self._board[i][j] = 1
@@ -74,21 +74,58 @@ class Board:
       n = 0
       for j in range(self._N):
         n += self._board[i, j]
-        if j == self.N - 1:
+        if j == self._N - 1:
           row_value += 0 if n < 2 else fac(n) / int(2 * (fac((n - 2))))
     return int(row_value)
 
   def count_main_diagonal(self):
-    queens = 0 #número de rainhas atacantes nas diagonais da esquerda para a direita
-    for diag in range(self._N):
-      q = 0
-      q += np.count_nonzero(self._board.diagonal(diag) == QUEEN)
-      queens += 0 if q < 2 else int(fac(q) / (2 * (fac((q - 2)))))
-      if diag != 0:
-        q = 0
-        q += np.count_nonzero(self._board.diagonal(-diag) == QUEEN)
-        queens += 0 if q < 2 else int(fac(q) / (2 * (fac((q - 2)))))
-    return queens
+    n = self._N
+    i = 0
+    j = 0
+    column = 0
+    last_column = n - 1
+    last_row = n
+    diag_sum = 0
+    diag_slice = 0
+    # andar principal e triângulo superior
+    while column <= last_column:
+      while i < last_row:
+        if j == last_column:
+          #print(self._board[i][j])
+          diag_slice += self._board[i][j]
+          diag_sum += 0 if diag_slice < 2 else fac(diag_slice) / int(2 * (fac((diag_slice - 2))))
+          diag_slice = 0
+        else:
+          #print(self._board[i][j], end=' ')
+          diag_slice += self._board[i, j]
+        i += 1
+        j += 1
+      column += 1
+      last_row -= 1
+      i = 0
+      j = column
+
+    i = 1
+    j = 0
+    row = 1
+    last_row = n - 1
+    # andar somente triângulo inferior
+    while row <= last_row:
+      while i <= last_row:
+        if i == last_row:
+          #print(self._board[i][j])
+          diag_slice += self._board[i, j]
+          diag_sum += 0 if diag_slice < 2 else fac(diag_slice) / int(2 * (fac((diag_slice - 2))))
+          diag_slice = 0
+        else:
+          #print(self._board[i][j], end=' ')
+          diag_slice += self._board[i, j]
+        i += 1
+        j += 1
+      row += 1
+      i = row
+      j = 0
+    return int(diag_sum)
 
   def count_secondary_diagonal(self):
     '''
@@ -103,17 +140,48 @@ class Board:
     20 11 02        i = i - 1; j = j + 1
     30 21 12 03     i = i - 1; j = j + 1
     40 31 22 13 04  i = i - 1; j = j + 1
-    A(nxn) -> n = i + j, para somente todo elemento da diagonal secundária
     '''
-    q = 0
-    length = 8
-    queens = 0
-    for j in range(length):
-      i = length - j
-      q += np.count_nonzero(self._board[i, j] == QUEEN)
-    if q > 1:
-      queens = int(fac(q)/(2*(fac(q - 2))))
-    return queens
+    n = self._N
+    row = 0
+    end_row = n
+    diag_sum = 0
+    # andar triângulo superior e secundária
+    while row < end_row:
+      i = row
+      j = 0
+      diag_slice = 0
+      while i >= 0:
+        if i != 0:
+          #print(self._board[i, j], end=' ')
+          diag_slice += self._board[i, j]
+        else:
+          #print(self._board[i, j])
+          diag_slice += self._board[i, j]
+          diag_sum += 0 if diag_slice < 2 else fac(diag_slice) / int(2 * (fac((diag_slice - 2))))
+          diag_slice = 0
+        i -= 1
+        j += 1
+      row += 1
 
-  def printBoard(self):
+    # andar sumente triângulo inferior
+    row = 1
+    diag_slice = 0
+    while row < end_row:
+      i = end_row - 1
+      j = row
+      while j < end_row:
+        if j != end_row - 1:
+          #print(self._board[i, j], end=' ')
+          diag_slice += self._board[i, j]
+        else:
+          #print(self._board[i, j])
+          diag_slice += self._board[i, j]
+          diag_sum += 0 if diag_slice < 2 else fac(diag_slice) / int(2 * (fac((diag_slice - 2))))
+          diag_slice = 0
+        i -= 1
+        j += 1
+      row += 1
+    return int(diag_sum)
+
+  def print(self):
     print(self._board)
