@@ -30,6 +30,9 @@ hs_err_pid*
 # vscode
 .vscode/*
 
+# pycache
+*/__pycache__/*
+
 # python unittest
 test/__pycache__/*
 __pycache__/*
