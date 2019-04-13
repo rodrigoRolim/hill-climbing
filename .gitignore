@@ -30,6 +30,9 @@ hs_err_pid*
 # vscode
 .vscode/*
 
+# mypy_cache
+.mypy_cache/*
+
 # pycache
 */__pycache__/*
 
