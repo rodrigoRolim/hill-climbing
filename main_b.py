@@ -55,9 +55,9 @@ try:
   n = 8
   board = Board(n)
 
-  _board_setup(board)
+  #_board_setup(board)
   exp_num = _get_experiment_number()
-  #board.rand_init()
+  board.rand_init()
 
   hill_climbing = HillClimbing(board)
 
