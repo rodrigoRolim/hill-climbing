@@ -2,41 +2,39 @@ import numpy as np
 from numpy.random import randint as rand
 
 QUEEN = 1
+H = 2
 
 class HillClimbing:
   
   def __init__(self,board):
     self._board = board
+    self._N = board.getN()
+    self._current_node = self._make_node()
   
+  def _make_node(self):
+    i, j = self._board.find_queen(rand(8))
+    return [i, j, self._heuristic()]
+
+  def _find_best_value(self):
+    best_value = [self._current_node[0], self._current_node[1], self._current_node[H]]
+    for column in range(self._N):
+      for row in range(self._N):
+        i, j = self._board.move_queen(row, column)
+        neighbor = [row, column, self._heuristic()]
+        self._board.move_queen(i, j)
+        if best_value[H] >= neighbor[H]:
+          best_value = neighbor
+    return best_value
+    
   def execute(self):
-    print(self._board)
-    prev_h = self._heuristic()
-    prev_i, prev_j = self._board.find_queen(rand(8))
-    loop = 0
-
+    yield self._current_node[H]
     while True:
-      if loop > 30:
-        self._board.rand_init()
-        prev_h = self._heuristic()
-        print(prev_h)
-        prev_i, prev_j = self._board.find_queen(rand(8))
-        loop = 0
-
-      j = rand(8)
-      for i in range(8):
-        h = self._heuristic()
-         
-        if prev_h == 0:
-          self._board.move_queen(prev_i, prev_j)
-          return self._board
-
-        if prev_h > h:
-          prev_h = h
-          prev_i = i
-          prev_j = j
-
-      self._board.move_queen(prev_i, prev_j)
-      loop += 1
+      h = self._find_best_value()
+      if self._current_node[H] >= h[H]:
+        self._board.move_queen(h[0], h[1])
+        yield h[H]
+      if self._current_node[H] == 0:
+        self._board.print()
 
   def _heuristic(self):
     rv = dv = 0
