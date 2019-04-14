@@ -65,8 +65,8 @@ class TestBoard(unittest.TestCase):
     i, j = 7, 7
     k, l = self._board.move_queen(i, j)
     self.assertEquals(self._board[i, j], 1)
-    self.assertEqual(i, k)
-    self.assertEqual(j, l)
+    self.assertEqual(-1, k)
+    self.assertEqual(-1, l)
   
   def test_undo_last_add_queen(self):
     i, j = 6, 2

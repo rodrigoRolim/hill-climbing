@@ -19,6 +19,9 @@ class Board:
     for j in range(self._N):
       i = rand(0, self._N - 1)
       self._board[i][j] = 1
+  
+  def getN(self):
+    return self._N
 
   def __getitem__(self, key):
     return self._board[key]
@@ -31,7 +34,7 @@ class Board:
     return self._board
 
   def find_queen(self, column):
-    n = np.where(self._board[:, column] == 1)
+    n = np.where(self._board[:, column] == QUEEN)
     if n[0].size == 0:
       return -1, -1
     else:
@@ -47,24 +50,14 @@ class Board:
       return i, j
     else:
       self._last_value = 0
-      self._last_i = 0
-      self._last_j = column
-      return 0, column
-  
-  def move_queen(self, row, column):
-    i, j = self.find_queen(column)
-    if i == -1:
-      self._last_value = 0
-      self._last_i = row
-      self._last_j = column
-      self._board[row, column] = 1
-      return row, column
-    else:
-      self._last_value = 1
       self._last_i = i
       self._last_j = j
-      self._board[row, column] = 1
       return i, j
+  
+  def move_queen(self, row, column):
+    i, j = self.remove_queen(column)
+    self._board[row, column] = 1
+    return i, j
 
   def undo_last_move(self):
     self._board[self._last_i, self._last_j] = self._last_value
