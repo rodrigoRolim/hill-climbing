@@ -30,9 +30,17 @@ hs_err_pid*
 # vscode
 .vscode/*
 
+# mypy_cache
+.mypy_cache/*
+
+# pycache
+*/__pycache__/*
+
 # python unittest
 test/__pycache__/*
 __pycache__/*
 
+# jupyter notebook
+.ipynb_checkpoints/*
 
 # End of https://www.gitignore.io/api/jav
