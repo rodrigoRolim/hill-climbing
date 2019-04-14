@@ -177,5 +177,8 @@ class Board:
       row += 1
     return int(diag_sum)
 
+  def get_board(self):
+    return self._board
+
   def print(self):
     print(self._board)
