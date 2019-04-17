@@ -32,7 +32,7 @@ def _save_board_setup(path, hill_climbing):
   text_board.write(np.array2string(hill_climbing.get_board(), separator=' '))
   text_board.close()
 
-def _board_setup(board):
+def _board_setup_5_steps_from_solution(board):
   i, j = 4, 0
   board[i, j] = 1
   i, j = 5, 1
@@ -51,13 +51,33 @@ def _board_setup(board):
   board[i, j] = 1
   board.print()
 
+def _board_setup_flat(board):
+  i, j = 0, 6
+  board[i, j] = 1
+  i, j = 1, 4
+  board[i, j] = 1
+  i, j = 2, 1
+  board[i, j] = 1
+  i, j = 3, 3
+  board[i, j] = 1
+  i, j = 4, 5
+  board[i, j] = 1
+  i, j = 5, 7
+  board[i, j] = 1
+  i, j = 6, 2
+  board[i, j] = 1
+  i, j = 7, 0
+  board[i, j] = 1
+  board.print()
+
 try:
   n = 8
   board = Board(n)
 
-  #_board_setup(board)
+  #_board_setup_5_steps_from_solution(board)
   exp_num = _get_experiment_number()
   board.rand_init()
+  #_board_setup_flat(board)
 
   hill_climbing = HillClimbing(board)
 
