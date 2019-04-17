@@ -47,8 +47,13 @@ class HillClimbing:
 
   def execute(self):
     yield self._current_node[H]
+    step = 0
+    last_value = [self._current_node[0], self._current_node[1], self._current_node[H]]
     while True:
       h = self._find_best_value()
+      last_value[0] = h[0]
+      last_value[1] = h[1]
+      last_value[H] = h[H]
       if self._current_node[H] >= h[H]:
         self._current_node = h
         self._board.move_queen(h[0], h[1])
@@ -56,3 +61,10 @@ class HillClimbing:
       if self._current_node[H] == 0:
         self._board.print()
         break
+      if last_value[H] == h[H]:
+        step += 1
+      if step == 100:
+        step = 0
+        self._board.rand_init()
+        i, j = self._board.find_queen(0)
+        self._current_node = [i, j, self._heuristic()]
