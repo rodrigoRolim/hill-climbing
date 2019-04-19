@@ -71,7 +71,7 @@ def _board_setup_flat(board):
   board.print()
 
 try:
-  n = 8
+  n = 20
   board = Board(n)
 
   #_board_setup_5_steps_from_solution(board)
